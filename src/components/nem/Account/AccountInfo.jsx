@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { getAccountInfo } from '../../../nem/account';
-import { handleResult } from './accountHelper';
-import { ResultState } from '../../../helper';
-import { useResultState } from '../../../hooks';
+import Account from './js/account';
+import ResultState from '../../../js/resultstate';
 
 import { Button, TextInput } from 'evergreen-ui';
 import ContentsTitle from '../../ContentsTitle';
-import Result from '../../Result';
+import Result from '../../Result2';
 
 const AccountInfo = (props) => {
   const [address, setAddress] = useState('');
-  const rs = useResultState();
+  const [result, setResult] = useState(ResultState.init());
 
   const handleChange = (e) => {
     switch (e.target.name) {
@@ -30,15 +28,13 @@ const AccountInfo = (props) => {
       <Button
         appearance="primary"
         onClick={ () => {
-          rs.setResult(
-            new ResultState(true, false, {}, '', '')
-          );
-          handleResult(getAccountInfo(address, window.catapultNode), rs, window.catapultNode)
+          setResult(ResultState.loading())
+          new Account(setResult, window.catapultNode).getAccountInfo(address);
         }}
       >
         確認
       </Button>
-      <Result result={rs} />
+      <Result result={result} />
     </div>
   )
 }

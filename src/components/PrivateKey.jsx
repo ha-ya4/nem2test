@@ -18,7 +18,7 @@ const PrivateKey = (props) => {
 
   return (
     <div>
-      <TextInput placeholder="privatekey" name="privateKey"　value={privateKey} onChange={handleChange} />
+      <TextInput placeholder="privateKey" name="privateKey"　value={privateKey} onChange={handleChange} />
       <Button
         appearance="primary"
         onClick={ () => {

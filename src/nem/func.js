@@ -31,16 +31,18 @@ export function monitoring(senderAddress, signedTx, endpoint) {
   const address = Address.createFromRawAddress(senderAddress);
   const listener = new Listener(wsEndpoint, WebSocket);
 
-  return (unconfirmed, confirmed, error) => {
+  return (status, confirmed, error) => {
     listener.open().then(() => {
-      listener.unconfirmedAdded(address).subscribe(res => {
-        unconfirmed(res);
+      listener.status(address).subscribe(res => {
+        status(res);
       });
       listener.confirmed(address, signedTx.hash).subscribe(res => {
         confirmed(res);
+        listener.close();
       });
     }, err => {
       error(err);
+      listener.close();
     });
   }
 }
@@ -50,6 +52,7 @@ export async function addDivisibilityTransResponse(obj, node) {
     for (const t of obj.innerTransactions) {
       for (const m of t.mosaics) {
         const res = await mosaicInfo(m.id, node).toPromise(Promise);
+        m.id = m.id.toHex()
         m.amount = m.amount.compact() / divisibility(res.divisibility);
       }
     }
@@ -58,6 +61,7 @@ export async function addDivisibilityTransResponse(obj, node) {
 
   for (const m of obj.mosaics) {
     const res = await mosaicInfo(m.id, node).toPromise(Promise);
+    m.id = m.id.toHex()
     m.amount = m.amount.compact() / divisibility(res.divisibility);
   }
 }

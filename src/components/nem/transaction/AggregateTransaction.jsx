@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { SendParams, ResultState, FormStateManager, getPrivateKey } from '../../../helper';
+import { SendParams, ResultState, StateManager, FormState, getPrivateKey } from '../../../js/helper';
 import { handleResult } from './transHelper';
-import { useResultState } from '../../../hooks';
+import { useResultState } from '../../../js/hooks';
 import { aggregateComplete } from '../../../nem/transactions';
 
 import { Button } from 'evergreen-ui';
 import ContentsTitle from '../../ContentsTitle';
-import TransactionForm from '../../TransactionForm';
+import TransactionManager from '../../FormManager';
 import Result from '../../Result';
 
 const AggregateTransaction = (props) => {
-  const [forms, setForms] = useState(new FormStateManager(2));
+  const [forms, setForms] = useState(new StateManager(2, FormState.init(), FormState.init()));
   const rs = useResultState();
 
   return (
@@ -18,8 +18,8 @@ const AggregateTransaction = (props) => {
       <ContentsTitle title="AggregateTransaction" />
 
       {
-        Object.keys(forms.forms).map(name => {
-          return <TransactionForm key={name} forms={forms} setForms={setForms} formNum={name}/>
+        Object.keys(forms.states).map(name => {
+          return <TransactionManager  key={name} states={forms} state={forms.states[name]} set={setForms} num={name}/>
         })
       }
 
@@ -27,7 +27,7 @@ const AggregateTransaction = (props) => {
         appearance="primary"
         marginTop={10}
         marginRight={3}
-        onClick={ () => setForms(forms.add())}
+        onClick={ () => setForms(forms.add(FormState.init()))}
       >
         フォーム追加
       </Button>
@@ -40,10 +40,11 @@ const AggregateTransaction = (props) => {
             new ResultState(true, false, {}, '', '')
           );
 
-          const params = Object.keys(forms.forms).map(name => {
-            const f = forms.forms[name];
+          const params = Object.keys(forms.states).map(name => {
+            const f = forms.states[name];
             return new SendParams(f.recipient, f.amount, f.message)
-          })
+          });
+
           handleResult(
             aggregateComplete(params, getPrivateKey(), window.catapultNode), rs, window.catapultNode
           );

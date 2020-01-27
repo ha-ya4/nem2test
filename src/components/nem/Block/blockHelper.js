@@ -1,4 +1,4 @@
-import { ResultState } from '../../../helper';
+import { ResultState } from '../../../js/helper';
 
 export function handleResult(response, resultState) {
   const success = (res) => {
@@ -7,7 +7,7 @@ export function handleResult(response, resultState) {
 
   const error = (err) => {
     resultState.setResult(
-      new ResultState(false, true, '', 'danger', 'エラー')
+      new ResultState(false, true, err.message, 'danger', 'エラー')
     )
   };
 

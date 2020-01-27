@@ -1,4 +1,4 @@
-import { ResultState } from '../../../helper';
+import { ResultState } from '../../../js/helper';
 import { addDivisibilityTransResponse } from '../../../nem/func';
 
 export function handleResult(response, resultState, node) {
@@ -16,7 +16,7 @@ export function handleResult(response, resultState, node) {
   },
   err => {
     resultState.setResult(
-      new ResultState(false, true, err.code, 'danger', 'エラー')
+      new ResultState(false, true, err.message, 'danger', 'エラー')
     )
     return;
   });
@@ -26,8 +26,8 @@ export function handleResult(response, resultState, node) {
 }
 
 function handleListener(listener, resultState, node) {
-  const unconfirmed = (res) => {
-    console.log(res);
+  const status = (res) => {
+    resultState.setResult(new ResultState(false, true, res, 'danger', 'tansaction status error'));
   };
 
   const confirmed = async (res) => {
@@ -38,9 +38,9 @@ function handleListener(listener, resultState, node) {
 
   const error = (err) => {
     resultState.setResult(
-      new ResultState(false, true, err, 'danger', 'エラー')
+      new ResultState(false, true, err.message, 'danger', 'エラー')
     )
   };
 
-  listener(unconfirmed, confirmed, error);
+  listener(status, confirmed, error);
 }

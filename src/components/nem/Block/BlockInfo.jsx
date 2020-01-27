@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useResultState } from '../../../hooks';
-import { ResultState } from '../../../helper';
+import { useResultState } from '../../../js/hooks';
+import { ResultState } from '../../../js/helper';
 import { handleResult } from './blockHelper';
 import { getBlockByHeight } from '../../../nem/block';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NODE_LIST } from '../constant';
+import { NODE_LIST } from '../js/constant';
 
 import { Select } from 'evergreen-ui';
 
