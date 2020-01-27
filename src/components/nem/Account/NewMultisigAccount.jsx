@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { createMultisigAccount } from '../../../nem/account';
-import { handleNewMultisigResult } from './accountHelper';
-import { ResultState, StateManager, MultisigAccountConf } from '../../../js/helper';
-import { useResultState } from '../../../js/hooks';
+import { StateManager, MultisigAccountConf } from '../../../js/helper';
+import ResultState from '../../../js/resultstate';
 
 import { Button, Text } from 'evergreen-ui';
 import ContentsTitle from '../../ContentsTitle';
@@ -12,7 +11,7 @@ import Result from '../../Result';
 const NewMultisigAccount = (props) => {
   const [conf, setConf] = useState(new StateManager(1, new MultisigAccountConf('', '', 0, 0)));
   const [privatekeys, setPrivatekeys] = useState(new StateManager(1, {privatekey: ''}));
-  const rs = useResultState();
+  const [result, setResult] = useState(ResultState.init());
 
   return (
     <div>
@@ -54,18 +53,14 @@ const NewMultisigAccount = (props) => {
       <Button
         appearance="primary"
         onClick={ () => {
-          rs.setResult(
-            new ResultState(true, false, {}, '', '')
-          );
+          setResult(ResultState.loading());
           conf.states[1].setPrivateKeysToArray(privatekeys.states)
-          handleNewMultisigResult(
-            createMultisigAccount(conf.states[1], window.catapultNode), rs
-          );
+          createMultisigAccount(conf.states[1], window.catapultNode)
         }}
       >
         作成
       </Button>
-      <Result result={rs} />
+      <Result result={result} />
     </div>
   )
 }

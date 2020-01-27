@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { useResultState } from '../../../js/hooks';
-import { ResultState } from '../../../js/helper';
-import { handleResult } from './blockHelper';
-import { getBlockByHeight } from '../../../nem/block';
+import Block from './block';
+import ResultState from '../../../js/resultstate';
 
 import { Button, TextInput } from 'evergreen-ui';
 import ContentsTitle from '../../ContentsTitle';
 import Result from '../../Result';
 
-const AccountInfo = (props) => {
+const BlockInfo = (props) => {
   const [height, setHeight] = useState('');
-  const rs = useResultState();
+  const [result, setResult] = useState(ResultState.init());
 
   const handleChange = (e) => {
     switch (e.target.name) {
@@ -30,17 +28,15 @@ const AccountInfo = (props) => {
       <Button
         appearance="primary"
         onClick={ () => {
-          rs.setResult(
-            new ResultState(true, false, {}, '', '')
-          );
-          handleResult(getBlockByHeight(height, window.catapultNode), rs)
+          setResult(ResultState.loading());
+          new Block(setResult, window.catapultNode).getBlockByHeight(height);
         }}
       >
         確認
       </Button>
-      <Result result={rs} />
+      <Result result={result} />
     </div>
   )
 }
 
-export default AccountInfo;
+export default BlockInfo;

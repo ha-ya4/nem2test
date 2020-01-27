@@ -25,40 +25,6 @@ export class MultisigAccountConf {
   }
 }
 
-export class SendParams {
-  constructor(recipientAddress, amount, message) {
-    this.recipientAddress = recipientAddress;
-    this.amount = amount;
-    this.message = message;
-  }
-}
-
-export class ResultState {
-  constructor(isSpinnerShown, isResultShown, result, intent, ReultTitle) {
-    this.isSpinnerShown = isSpinnerShown;
-    this.isResultShown = isResultShown;
-    this.result = result;
-    this.intent = intent
-    this.title = ReultTitle;
-  }
-
-  static init() {
-    return new ResultState(false, false, {}, 'success', '')
-  }
-}
-
-export class FormState {
-  constructor(recipient, amount, message) {
-    this.recipient = recipient;
-    this.amount = amount;
-    this.message = message;
-  }
-
-  static init() {
-    return new FormState('', 0, '');
-  }
-}
-
 // オブジェクトの表示やuseStateに対応できる書き換えなど管理するclass
 export class StateManager {
   // 下のようなオブジェクトを作る

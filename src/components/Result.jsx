@@ -8,13 +8,11 @@ const Result = (props) => {
     marginTop: 50
   };
 
-  const result = props.result.result;
-
   return (
     <div>
       <hr style={style}/>
 
-      {   result.isSpinnerShown && (
+      { props.result.isSpinnerShown && (
         <Pane
           display="flex"
           alignItems="center"
@@ -25,16 +23,16 @@ const Result = (props) => {
         </Pane>
       )}
 
-      {  result.isResultShown && (
+      { props.result.isResultShown && (
         <Alert
-          intent={ result.intent }
-          title={result.title}
+          intent={ props.result.intent }
+          title={props.result.title}
           marginTop={20}
         >
           {
-            result.intent === 'danger'
-            ? result.result
-            : <ObjMapList obj={result.result} />
+            props.result.intent === 'danger'
+            ? props.result.result
+            : <ObjMapList obj={props.result.result} />
           }
         </Alert>
       )}

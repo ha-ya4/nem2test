@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { SendParams, ResultState, StateManager, FormState, getPrivateKey } from '../../../js/helper';
-import { handleResult } from './transHelper';
-import { useResultState } from '../../../js/hooks';
-import { aggregateComplete } from '../../../nem/transactions';
+import Aggregate from './js/aggregete';
+import { StateManager, getPrivateKey } from '../../../js/helper';
+import { FormState, SendParams } from '../../../js/dataclass';
+import ResultState from '../../../js/resultstate';
 
 import { Button } from 'evergreen-ui';
 import ContentsTitle from '../../ContentsTitle';
@@ -11,7 +11,7 @@ import Result from '../../Result';
 
 const AggregateTransaction = (props) => {
   const [forms, setForms] = useState(new StateManager(2, FormState.init(), FormState.init()));
-  const rs = useResultState();
+  const [result, setResult] = useState(ResultState.init());
 
   return (
     <div>
@@ -36,24 +36,20 @@ const AggregateTransaction = (props) => {
         appearance="primary"
         marginTop={10}
         onClick={ () => {
-          rs.setResult(
-            new ResultState(true, false, {}, '', '')
-          );
+          setResult(ResultState.loading());
 
+          const privateKey = getPrivateKey();
           const params = Object.keys(forms.states).map(name => {
             const f = forms.states[name];
             return new SendParams(f.recipient, f.amount, f.message)
           });
-
-          handleResult(
-            aggregateComplete(params, getPrivateKey(), window.catapultNode), rs, window.catapultNode
-          );
+          new Aggregate(setResult, window.catapultNode).sendComplete(params, privateKey);
         }}
       >
         送金
       </Button>
 
-      <Result result={rs} />
+      <Result result={result} />
     </div>
   )
 }

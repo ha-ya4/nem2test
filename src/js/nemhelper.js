@@ -8,6 +8,7 @@ import {
 
 export const NetworkCurrencyMosaicId = new MosaicId('75AF035421401EF0');
 export const NetworkCurrencyMosaicDivisibility = 6;
+export const HashLockAmount = 10;
 
 export function divisibility(n) {
   return Math.pow(10, n)

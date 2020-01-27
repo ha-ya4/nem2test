@@ -15,6 +15,10 @@ export default class ResultState {
     return new ResultState(true, false, {}, '', '')
   }
 
+  static none(contents, resultTitle) {
+    return new ResultState(false, true, contents, 'none', resultTitle)
+  }
+
   static success(contents, resultTitle) {
     return new ResultState(false, true, contents, 'success', resultTitle)
   }

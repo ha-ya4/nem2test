@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { SendParams, ResultState, StateManager, FormState, getPrivateKey } from '../../../js/helper';
-import { handleResult } from './transHelper';
-import { useResultState } from '../../../js/hooks';
-import { transfer } from '../../../nem/transactions';
+import { StateManager, getPrivateKey } from '../../../js/helper';
+import { FormState, SendParams } from '../../../js/dataclass';
+import ResultState from '../../../js/resultstate';
+import Transfer from './js/transfer';
 
 import { Button } from 'evergreen-ui';
 import FormManager from '../../FormManager';
 import ContentsTitle from '../../ContentsTitle';
 import Result from '../../Result';
 
-const AppTransferTransaction = () => {
+const TransferTransaction = () => {
   const [forms, setForms] = useState(new StateManager(1, FormState.init()));
-  const rs = useResultState();
+  const [result, setResult] = useState(ResultState.init());
 
   return (
     <div>
@@ -26,25 +26,22 @@ const AppTransferTransaction = () => {
         appearance="primary"
         marginTop={10}
         onClick={ () => {
-          rs.setResult(
-            new ResultState(true, false, {}, '', '')
-          );
+          setResult(ResultState.loading());
           const f = forms.states
           const params = new SendParams(f[1].recipient, f[1].amount, f[1].message)
-          handleResult(
-            transfer(params, getPrivateKey(), window.catapultNode), rs, window.catapultNode
-          );
+          const privateKey = getPrivateKey();
+          new Transfer(setResult, window.catapultNode).send(params, privateKey);
         }}
       >
         送金
       </Button>
 
-      <Result result={rs} />
+      <Result result={result} />
     </div>
   )
 }
 
-export default AppTransferTransaction;
+export default TransferTransaction;
 
 
 

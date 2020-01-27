@@ -4,7 +4,7 @@ import ResultState from '../../../js/resultstate';
 
 import { Button, TextInput } from 'evergreen-ui';
 import ContentsTitle from '../../ContentsTitle';
-import Result from '../../Result2';
+import Result from '../../Result';
 
 const AccountInfo = (props) => {
   const [address, setAddress] = useState('');
