@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createMultisigAccount } from '../../../nem/account';
+import MultisigAccount from './js/multisig-account';
 import { StateManager, MultisigAccountConf } from '../../../js/helper';
 import ResultState from '../../../js/resultstate';
 
@@ -54,8 +54,8 @@ const NewMultisigAccount = (props) => {
         appearance="primary"
         onClick={ () => {
           setResult(ResultState.loading());
-          conf.states[1].setPrivateKeysToArray(privatekeys.states)
-          createMultisigAccount(conf.states[1], window.catapultNode)
+          conf.states[1].setPrivateKeysToArray(privatekeys.states);
+          new MultisigAccount(setResult, window.catapultNode).create(conf.states[1]);
         }}
       >
         作成

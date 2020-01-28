@@ -1,20 +1,10 @@
 import {
-  Address,
-  Deadline,
   NetworkType,
-  TransferTransaction,
-  HashLockTransaction,
-  UInt64,
   MosaicHttp,
   Listener,
 } from 'nem2-sdk';
 
-import {
-  createMessage,
-  divisibility,
-  networkCurrencyMosaic,
-  HashLockAmount,
-} from '../../../../js/nemhelper';
+import { divisibility } from '../../../../js/nemhelper';
 
 import ResultState from '../../../../js/resultstate';
 
@@ -25,8 +15,9 @@ export default class Transaction {
     this.wsEndpoint = this.node.replace('http', 'ws');
   }
 
-  handleAnnounceResponse(response) {
+  handleAnnounceResponse(response, signedTx) {
     response.subscribe(res => {
+      res['hash'] = signedTx.hash;
       this.setResult(ResultState.none(res, 'announce response'));
     },
     err => {
@@ -40,7 +31,7 @@ export default class Transaction {
       () => {
 
         listener.status(address).subscribe(err => {
-          this.setResult(ResultState.danger(err.message, 'tansaction status error'));
+          this.setResult(ResultState.danger(err.code, 'tansaction status error'));
           listener.close();
         });
 
@@ -77,27 +68,5 @@ export default class Transaction {
       m.id = m.id.toHex()
       m.amount = m.amount.compact() / divisibility(res.divisibility);
     }
-  }
-
-  createTransfer(params) {
-    return TransferTransaction.create(
-      Deadline.create(),
-      Address.createFromRawAddress(params.recipientAddress),
-      [networkCurrencyMosaic(params.amount)],
-      createMessage(params.message),
-      NetworkType.TEST_NET,
-      UInt64.fromUint(200000)
-    );
-  }
-
-  hashLock(sinedTx) {
-    return HashLockTransaction.create(
-      Deadline.create(),
-      networkCurrencyMosaic(HashLockAmount),
-      UInt64.fromUint(480),
-      sinedTx,
-      NetworkType.TEST_NET,
-      UInt64.fromUint(2000000)
-    )
   }
 }

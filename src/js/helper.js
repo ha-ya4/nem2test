@@ -8,8 +8,8 @@ export class MultisigAccountConf {
   constructor(privateKey, privateKeys, minApprovalDelta, minRemovalDelta) {
     this.privateKey = privateKey;
     this.cosignatoryPrivateKeys = privateKeys;
-    this.minApprovalDelta = minApprovalDelta;
-    this.minRemovalDelta = minRemovalDelta;
+    this.minApprovalDelta = parseInt(minApprovalDelta);
+    this.minRemovalDelta = parseInt(minRemovalDelta);
   }
 
   setPrivateKeysToArray(obj) {

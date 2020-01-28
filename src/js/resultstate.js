@@ -16,7 +16,7 @@ export default class ResultState {
   }
 
   static none(contents, resultTitle) {
-    return new ResultState(false, true, contents, 'none', resultTitle)
+    return new ResultState(true, true, contents, 'none', resultTitle)
   }
 
   static success(contents, resultTitle) {

@@ -5,7 +5,6 @@ import {
   TransactionHttp,
   NetworkType,
   UInt64,
-  Listener,
 } from 'nem2-sdk';
 import Transaction from './base-transaction';
 import ResultState from '../../../../js/resultstate';
@@ -26,7 +25,7 @@ export default class AggregateTransaction extends Transaction {
       const transHttp = new TransactionHttp(this.node);
       const res = transHttp.announce(signedTx);
 
-      this.handleAnnounceResponse(res);
+      this.handleAnnounceResponse(res, signedTx);
       this.monitoring(sender.address, signedTx);
 
     } catch (err) {
