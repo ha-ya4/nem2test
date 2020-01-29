@@ -47,7 +47,7 @@ const NewMultisigAccount = (props) => {
         marginRight={3}
         onClick={ () => setPrivatekeys(privatekeys.add({privatekey:''}))}
       >
-        パブリックキー追加
+        連署者追加
       </Button>
 
       <Button

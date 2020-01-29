@@ -30,22 +30,19 @@ export default class MultisigAccount {
       return transHttp.announceAggregateBondedCosignature(signedCosignature);
     });
 
-    announce[0].pipe(
-      merge(...announce.slice(1))
-    ).subscribe(
+    announce[0].pipe(merge(...announce.slice(1))).subscribe(
       res => {
         this.setResult(ResultState.none(res, 'cosignature response'));
       },
       err => {
         this.setResult(ResultState.danger(err.message, 'エラー'));
       },
+      () => {
+        setTimeout(() => {
+          this.getMultisigAccountInfo(address);
+        }, 30000);
+      }
     );
-/*
-    Promise.all(announce).then(values => {
-      values.forEach(v => {
-        v.subscribe(res => {})
-      })
-    })*/
   }
 
   create(conf) {
@@ -88,11 +85,6 @@ export default class MultisigAccount {
             listener.close();
           }
         )
-
-        listener.confirmed(account.address, signedTx.hash).subscribe(() => {
-          this.getMultisigAccountInfo(account.address.plain());
-          listener.close();
-        })
       });
 
     } catch (err) {

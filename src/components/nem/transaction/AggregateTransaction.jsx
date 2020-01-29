@@ -6,7 +6,7 @@ import ResultState from '../../../js/resultstate';
 
 import { Button } from 'evergreen-ui';
 import ContentsTitle from '../../ContentsTitle';
-import TransactionManager from '../../FormManager';
+import FormManager from '../../FormManager';
 import Result from '../../Result';
 
 const AggregateTransaction = (props) => {
@@ -19,7 +19,7 @@ const AggregateTransaction = (props) => {
 
       {
         Object.keys(forms.states).map(name => {
-          return <TransactionManager  key={name} states={forms} state={forms.states[name]} set={setForms} num={name}/>
+          return <FormManager  key={name} states={forms} state={forms.states[name]} set={setForms} num={name}/>
         })
       }
 

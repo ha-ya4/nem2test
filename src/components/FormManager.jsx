@@ -28,7 +28,14 @@ const FormManager = (props) => {
   )
 }
 
-FormManager.propTypes = {};
+FormManager.propTypes = {
+  state: PropTypes.object,
+  states: PropTypes.object,
+  set: PropTypes.func,
+  num: PropTypes.string,
+  exclude: PropTypes.array,
+};
+
 FormManager.defaultProps = {
   exclude: [],
 };
