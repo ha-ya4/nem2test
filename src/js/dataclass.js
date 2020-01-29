@@ -14,7 +14,7 @@ export class SendParams {
   }
 }
 
-export class FormState {
+export class TransactionParamsState {
   constructor(recipient, amount, message) {
     this.recipient = recipient;
     this.amount = amount;
@@ -22,6 +22,6 @@ export class FormState {
   }
 
   static init() {
-    return new FormState('', 0, '');
+    return new TransactionParamsState('', 0, '');
   }
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Aggregate from './js/aggregete';
 import { StateManager, getPrivateKey } from '../../../js/helper';
-import { FormState, SendParams } from '../../../js/dataclass';
+import { TransactionParamsState as TransPramState, SendParams } from '../../../js/dataclass';
 import ResultState from '../../../js/resultstate';
 
 import { Button } from 'evergreen-ui';
@@ -10,7 +10,7 @@ import FormManager from '../../FormManager';
 import Result from '../../Result';
 
 const AggregateTransaction = (props) => {
-  const [forms, setForms] = useState(new StateManager(2, FormState.init(), FormState.init()));
+  const [forms, setForms] = useState(new StateManager(2, TransPramState.init(), TransPramState.init()));
   const [result, setResult] = useState(ResultState.init());
 
   return (
@@ -27,7 +27,7 @@ const AggregateTransaction = (props) => {
         appearance="primary"
         marginTop={10}
         marginRight={3}
-        onClick={ () => setForms(forms.add(FormState.init()))}
+        onClick={ () => setForms(forms.add(TransPramState.init()))}
       >
         フォーム追加
       </Button>

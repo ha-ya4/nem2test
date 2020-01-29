@@ -3,6 +3,8 @@ import {
   NewAccount,
   NewMultisigAccount,
   MultisigAccountInfo,
+  NewMosaic,
+  NewNamespace,
   BlockInfo,
   TransferTransaction,
   MultisigTransaction,
@@ -24,7 +26,15 @@ export const routes = [
   },
   {
     path: '/account/info/multisig',
-    component:MultisigAccountInfo
+    component: MultisigAccountInfo
+  },
+  {
+    path: '/namespace/new',
+    component: NewNamespace
+  },
+  {
+    path: '/mosaic/new',
+    component: NewMosaic
   },
   {
     path: '/block/info',
@@ -60,6 +70,14 @@ export const link = [
   {
     to: '/account/info/multisig',
     text: 'マルチシグアカウント情報'
+  },
+  {
+    to: '/namespace/new',
+    text: 'Namespace作成'
+  },
+  {
+    to: '/mosaic/new',
+    text: 'モザイク作成'
   },
   {
     to: '/block/info',

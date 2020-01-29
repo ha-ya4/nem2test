@@ -1,26 +1,18 @@
 import {
   Account,
-  AggregateTransaction as AggregateTX,
-  Deadline,
   TransactionHttp,
   NetworkType,
-  UInt64,
 } from 'nem2-sdk';
 import Transaction from './base-transaction';
 import ResultState from '../../../../js/resultstate';
+import { createTransfer, createAggregeteComplete } from '../../../../js/nemhelper';
 
 export default class AggregateTransaction extends Transaction {
   sendComplete(params, privateKey) {
     try{
-      const txs = params.map(p => this.createTransfer(p));
+      const txs = params.map(p => createTransfer(p));
       const sender = Account.createFromPrivateKey(privateKey, NetworkType.TEST_NET);
-      const aggregateTx = AggregateTX.createComplete(
-        Deadline.create(),
-        txs.map(tx => tx.toAggregate(sender.publicAccount)),
-        NetworkType.TEST_NET,
-        [],
-        UInt64.fromUint(200000)
-      );
+      const aggregateTx = createAggregeteComplete(txs.map(tx => tx.toAggregate(sender.publicAccount)), []);
       const signedTx = sender.sign(aggregateTx, process.env.REACT_APP_GENERATION_HASH);
       const transHttp = new TransactionHttp(this.node);
       const res = transHttp.announce(signedTx);

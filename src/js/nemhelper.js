@@ -41,6 +41,16 @@ export function createAggregeteBonded(innerTrans, cosignatures) {
   );
 }
 
+export function createAggregeteComplete(innerTrans, cosignatures) {
+  return AggregateTransaction.createComplete(
+    Deadline.create(),
+    innerTrans,
+    NetworkType.TEST_NET,
+    cosignatures,
+    UInt64.fromUint(2000000)
+  );
+}
+
 export function createTransfer(params) {
   return TransferTransaction.create(
     Deadline.create(),

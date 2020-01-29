@@ -13,8 +13,7 @@ export default class TransferTransaction extends Transaction {
       const tx = createTransfer(params);
       const sender = Account.createFromPrivateKey(privateKey, NetworkType.TEST_NET);
       const signedTx = sender.sign(tx, process.env.REACT_APP_GENERATION_HASH);
-      const transHttp = new TransactionHttp(this.node);
-      const res = transHttp.announce(signedTx);
+      const res = new TransactionHttp(this.node).announce(signedTx);
 
       this.handleAnnounceResponse(res, signedTx);
       this.monitoring(sender.address, signedTx);

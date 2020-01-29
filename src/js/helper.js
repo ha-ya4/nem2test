@@ -3,6 +3,7 @@ import {
   Account,
   NetworkType
 } from 'nem2-sdk';
+import { SendParams } from './dataclass';
 
 export class MultisigAccountConf {
   constructor(privateKey, privateKeys, minApprovalDelta, minRemovalDelta) {
@@ -10,6 +11,26 @@ export class MultisigAccountConf {
     this.cosignatoryPrivateKeys = privateKeys;
     this.minApprovalDelta = parseInt(minApprovalDelta);
     this.minRemovalDelta = parseInt(minRemovalDelta);
+  }
+
+  setPrivateKeysToArray(obj) {
+    this.cosignatoryPrivateKeys = Object.keys(obj).map(name => {
+      return obj[name].privatekey;
+    });
+  }
+
+  getCosignatoryAccount() {
+    return this.cosignatoryPrivateKeys.map(key => {
+      return Account.createFromPrivateKey(key, NetworkType.TEST_NET);
+    })
+  }
+}
+
+export class MultisigSendParams {
+  constructor(recipientAddress, amount, message, multisigPubKey, privateKeys) {
+    this.params = new SendParams(recipientAddress, amount, message)
+    this.multisigPubKey = multisigPubKey;
+    this.cosignatoryPrivateKeys = privateKeys;
   }
 
   setPrivateKeysToArray(obj) {
