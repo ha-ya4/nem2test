@@ -28,8 +28,7 @@ const TransferTransaction = () => {
         onClick={ () => {
           setResult(ResultState.loading());
           const params = new SendParams(forms.states[1].recipient, forms.states[1].amount, forms.states[1].message);
-          const privateKey = getPrivateKey();
-          new Transfer(setResult, window.catapultNode).send(params, privateKey);
+          new Transfer(setResult, window.catapultNode).send(params, getPrivateKey());
         }}
       >
         送金

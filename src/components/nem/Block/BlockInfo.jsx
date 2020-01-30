@@ -25,15 +25,27 @@ const BlockInfo = (props) => {
     <div>
       <ContentsTitle title="ブロック情報" />
       <TextInput placeholder="height" name="height" onChange={handleChange} />
-      <Button
-        appearance="primary"
-        onClick={ () => {
-          setResult(ResultState.loading());
-          new Block(setResult, window.catapultNode).getBlockByHeight(height);
-        }}
-      >
-        確認
-      </Button>
+      <div>
+        <Button
+          appearance="primary"
+          onClick={ () => {
+            setResult(ResultState.loading());
+            new Block(setResult, window.catapultNode).getBlockByHeight(height);
+          }}
+        >
+          確認
+        </Button>
+        <Button
+          appearance="primary"
+          marginLeft={3}
+          onClick={ () => {
+            setResult(ResultState.loading());
+            new Block(setResult, window.catapultNode).getBlockchainHeight();
+          }}
+        >
+          現在のブロック高
+        </Button>
+      </div>
       <Result result={result} />
     </div>
   )

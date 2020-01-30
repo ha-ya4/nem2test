@@ -3,7 +3,7 @@ import {
   TransactionHttp,
   NetworkType,
 } from 'nem2-sdk';
-import Transaction from './base-transaction';
+import { Transaction } from '../../../../js/nemhelper';
 import ResultState from '../../../../js/resultstate';
 import { createTransfer } from '../../../../js/nemhelper';
 
