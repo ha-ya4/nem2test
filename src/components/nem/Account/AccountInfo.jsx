@@ -1,40 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Account from './js/account';
-import ResultState from '../../../js/resultstate';
 
-import { Button, TextInput } from 'evergreen-ui';
-import ContentsTitle from '../../ContentsTitle';
-import Result from '../../Result';
+import SingleForm from '../SingleForm';
 
 const AccountInfo = (props) => {
-  const [address, setAddress] = useState('');
-  const [result, setResult] = useState(ResultState.init());
-
-  const handleChange = (e) => {
-    switch (e.target.name) {
-      case 'address':
-        setAddress(e.target.value);
-        break;
-
-      default:
-        return;
-    }
+  const func = (setResult, node, value) => {
+    new Account(setResult, node).getAccountInfo(value);
   };
 
   return (
     <div>
-      <ContentsTitle title="アカウント情報" />
-      <TextInput placeholder="address"  name="address" onChange={handleChange} />
-      <Button
-        appearance="primary"
-        onClick={ () => {
-          setResult(ResultState.loading())
-          new Account(setResult, window.catapultNode).getAccountInfo(address);
-        }}
-      >
-        確認
-      </Button>
-      <Result result={result} />
+      <SingleForm title='アカウント情報' placeholder='address' name='address' click={func} />
     </div>
   )
 }

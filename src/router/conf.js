@@ -4,7 +4,9 @@ import {
   NewMultisigAccount,
   MultisigAccountInfo,
   NewMosaic,
+  MosaicInfo,
   NewNamespace,
+  NamespaceAlias,
   NamespaceInfo,
   BlockInfo,
   TransferTransaction,
@@ -34,12 +36,20 @@ export const routes = [
     component: NewNamespace
   },
   {
+    path: '/namespace/alias',
+    component: NamespaceAlias
+  },
+  {
     path: '/namespace/info',
     component: NamespaceInfo
   },
   {
     path: '/mosaic/new',
     component: NewMosaic
+  },
+  {
+    path: '/mosaic/info',
+    component: MosaicInfo
   },
   {
     path: '/block/info',
@@ -81,12 +91,20 @@ export const link = [
     text: 'ネームスペース作成'
   },
   {
+    to: '/namespace/alias',
+    text: 'ネームスペースエイリアス'
+  },
+  {
     to: '/namespace/info',
     text: 'ネームスペース情報'
   },
   {
     to: '/mosaic/new',
     text: 'モザイク作成'
+  },
+  {
+    to: '/mosaic/info',
+    text: 'モザイク情報'
   },
   {
     to: '/block/info',

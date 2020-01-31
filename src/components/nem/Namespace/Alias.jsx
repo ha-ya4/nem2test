@@ -8,21 +8,21 @@ import ContentsTitle from '../../ContentsTitle';
 import FormManager from '../../FormManager';
 import Result from '../../Result';
 
-const NewNamespace = (props) => {
-  const [namespace, setNamespace] = useState(new StateManager(1, {name: '', duration:0}));
-  const [subNamespace, setSubNamespace] = useState(new StateManager(1, {rootNamespace: '', subNamespace:''}));
+const Alias = (props) => {
+  const [address, setAddress] = useState(new StateManager(1, {namespace: '', address:''}));
+  const [mosaic, setMosaic] = useState(new StateManager(1, {namespace: '', mosaicId:''}));
   const [result, setResult] = useState(ResultState.init());
 
 
   return (
     <div>
-      <ContentsTitle title="ネームスペース作成" />
+      <ContentsTitle title="ネームスペースエイリアス" />
 
       <div>
-        <Text>ルートネームスペース</Text>
+        <Text>アドレスエイリアス</Text>
         {
-          Object.keys(namespace.states).map(name => {
-            return <FormManager  key={name} states={namespace} state={namespace.states[name]} set={setNamespace} num={name}/>
+          Object.keys(address.states).map(name => {
+            return <FormManager  key={name} states={address} state={address.states[name]} set={setAddress} num={name}/>
           })
         }
 
@@ -31,7 +31,6 @@ const NewNamespace = (props) => {
           marginTop={10}
           onClick={ () => {
             setResult(ResultState.loading());
-            new Namespace(setResult, window.catapultNode).newNamespace(namespace.states[1], getPrivateKey());
           }}
         >
           作成
@@ -39,10 +38,10 @@ const NewNamespace = (props) => {
       </div>
 
       <div style={{marginTop: '30px'}}>
-        <Text>サブネームスペース</Text>
+        <Text>モザイクエイリアス</Text>
         {
-          Object.keys(subNamespace.states).map(name => {
-            return <FormManager  key={name} states={subNamespace} state={subNamespace.states[name]} set={setSubNamespace} num={name}/>
+          Object.keys(mosaic.states).map(name => {
+            return <FormManager  key={name} states={mosaic} state={mosaic.states[name]} set={setMosaic} num={name}/>
           })
         }
 
@@ -51,7 +50,6 @@ const NewNamespace = (props) => {
           marginTop={10}
           onClick={ () => {
             setResult(ResultState.loading());
-            new Namespace(setResult, window.catapultNode).newSubNamespace(subNamespace.states[1], getPrivateKey());
           }}
         >
           作成
@@ -63,4 +61,4 @@ const NewNamespace = (props) => {
   )
 }
 
-export default NewNamespace;
+export default Alias;

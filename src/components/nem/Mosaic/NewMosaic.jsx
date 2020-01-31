@@ -7,7 +7,7 @@ import ContentsTitle from '../../ContentsTitle';
 import FormManager from '../../FormManager';
 import Result from '../../Result';
 
-const MultisigTransaction = (props) => {
+const NewMosaic = (props) => {
   const [result, setResult] = useState(ResultState.init());
 
   return (
@@ -29,4 +29,4 @@ const MultisigTransaction = (props) => {
   )
 }
 
-export default MultisigTransaction;
+export default NewMosaic;
