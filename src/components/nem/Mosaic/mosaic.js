@@ -49,7 +49,7 @@ export default class Namespace extends Transaction {
     }
   }
 
-  async supplyChange(privateKey, conf, action) {
+  supplyChange(privateKey, conf, action) {
     try {
       const account = Account.createFromPrivateKey(privateKey, NetworkType.TEST_NET);
       const mosaicId = new MosaicId(conf.mosaicId);

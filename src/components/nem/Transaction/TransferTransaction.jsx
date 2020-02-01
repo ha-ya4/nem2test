@@ -40,7 +40,3 @@ const TransferTransaction = () => {
 }
 
 export default TransferTransaction;
-
-
-
-
