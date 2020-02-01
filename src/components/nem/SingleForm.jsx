@@ -10,7 +10,7 @@ const SingleForm = (props) => {
   const [value, setValue] = useState('');
   const [result, setResult] = useState(ResultState.init());
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     switch (e.target.name) {
       case props.name:
         setValue(e.target.value);

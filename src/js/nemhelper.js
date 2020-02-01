@@ -11,6 +11,7 @@ import {
   MosaicId,
   Mosaic,
   MosaicHttp,
+  MosaicSupplyChangeTransaction,
   TransferTransaction,
   ReceiptHttp,
   TransactionHttp,
@@ -79,6 +80,17 @@ export function createHashLock(sinedTx) {
     NetworkType.TEST_NET,
     UInt64.fromUint(2000000)
   )
+}
+
+export function createMosaicSupplyChangeTransaction(action, mosaicId, supply) {
+  return MosaicSupplyChangeTransaction.create(
+    Deadline.create(),
+    mosaicId,
+    action,
+    UInt64.fromUint(supply),
+    NetworkType.TEST_NET,
+    UInt64.fromUint(2000000)
+  );
 }
 
 export class Transaction {

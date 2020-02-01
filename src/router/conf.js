@@ -4,6 +4,7 @@ import {
   NewMultisigAccount,
   MultisigAccountInfo,
   NewMosaic,
+  SupplyChange,
   MosaicInfo,
   NewNamespace,
   NamespaceAlias,
@@ -46,6 +47,10 @@ export const routes = [
   {
     path: '/mosaic/new',
     component: NewMosaic
+  },
+  {
+    path: '/mosaic/supplychange',
+    component: SupplyChange
   },
   {
     path: '/mosaic/info',
@@ -101,6 +106,10 @@ export const link = [
   {
     to: '/mosaic/new',
     text: 'モザイク作成'
+  },
+  {
+    to: '/mosaic/supplychange',
+    text: 'モザイク供給変更'
   },
   {
     to: '/mosaic/info',

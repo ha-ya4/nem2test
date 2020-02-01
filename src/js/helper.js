@@ -67,7 +67,10 @@ export class StateManager {
 
   set(num, name, value) {
     this.states[num][name] = value;
-    return this;
+    const state = Object.keys(this.states).map(name => {
+      return this.states[name];
+    });
+    return new StateManager(this.quantity, ...state);
   }
 
   // 引数のオブジェクトをナンバーを追加してthis.stateに加える

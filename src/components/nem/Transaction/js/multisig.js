@@ -26,7 +26,7 @@ export default class MultisigTransaction extends Transaction {
         this.sendBonded(cosignatory, multisigAccount, transferTransaction);
       }
     } catch(err) {
-     this.setResult(ResultState.danger(err.message, 'エラー'));
+      this.setResult(ResultState.danger(err.message, 'エラー'));
       return;
     }
   }

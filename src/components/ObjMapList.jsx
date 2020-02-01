@@ -22,7 +22,7 @@ const ObjMapList = (props) => {
                 )
                 : (
                   <Text marginTop="default" size={props.size}>
-                    {name}:&ensp;{props.obj[name]}
+                    {name}:&ensp;{String(props.obj[name])}
                   </Text>
                 )
               }

@@ -10,6 +10,7 @@ export { default as TransferTransaction } from './nem/Transaction/TransferTransa
 export { default as MultisigTransaction } from './nem/Transaction/MultisigTransaction';
 export { default as AggregateTransaction } from './nem/Transaction/AggregateTransaction';
 export { default as NewMosaic } from './nem/Mosaic/NewMosaic'
+export { default as SupplyChange } from './nem/Mosaic/SupplyChange'
 export { default as MosaicInfo } from './nem/Mosaic/MosaicInfo'
 export { default as NewNamespace } from './nem/Namespace/NewNamespace'
 export { default as NamespaceInfo } from './nem/Namespace/NamespaceInfo'

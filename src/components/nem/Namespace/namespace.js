@@ -36,7 +36,7 @@ export default class Namespace extends Transaction {
   }
 
   newSubNamespace(conf, privateKey) {
-    //try {
+    try {
       const account = Account.createFromPrivateKey(privateKey, NetworkType.TEST_NET);
       const namespaceRegistrationTransaction = NamespaceRegistrationTransaction.createSubNamespace(
         Deadline.create(),
@@ -45,16 +45,16 @@ export default class Namespace extends Transaction {
         NetworkType.TEST_NET,
         UInt64.fromUint(2000000)
       );
-      const signedTx = account.sign(namespaceRegistrationTransaction, process.env.REACT_APP_GENERATION_HASH)
+      const signedTx = account.sign(namespaceRegistrationTransaction, process.env.REACT_APP_GENERATION_HASH);
       const res = new TransactionHttp(this.node).announce(signedTx);
 
       this.handleAnnounceResponse(res, signedTx);
       this.monitoring(account.address, signedTx);
-/*
+
     } catch(err) {
       this.setResult(ResultState.danger(err.message, 'エラー'));
       return;
-    }*/
+    }
   }
 
   getNamespaceInfo(name) {
