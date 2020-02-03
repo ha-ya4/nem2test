@@ -1,7 +1,6 @@
 import { toaster } from 'evergreen-ui';
 import {
   Account,
-  NetworkType
 } from 'nem2-sdk';
 import { SendParams } from './dataclass';
 
@@ -21,7 +20,7 @@ export class MultisigAccountConf {
 
   getCosignatoryAccount() {
     return this.cosignatoryPrivateKeys.map(key => {
-      return Account.createFromPrivateKey(key, NetworkType.TEST_NET);
+      return Account.createFromPrivateKey(key, process.env.REACT_APP_NETWORK_TYPE);
     })
   }
 }
@@ -41,7 +40,7 @@ export class MultisigSendParams {
 
   getCosignatoryAccount() {
     return this.cosignatoryPrivateKeys.map(key => {
-      return Account.createFromPrivateKey(key, NetworkType.TEST_NET);
+      return Account.createFromPrivateKey(key, process.env.REACT_APP_NETWORK_TYPE);
     })
   }
 }

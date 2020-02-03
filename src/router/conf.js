@@ -10,6 +10,7 @@ import {
   NamespaceAlias,
   NamespaceInfo,
   BlockInfo,
+  MosaicMetadataInfo,
   TransferTransaction,
   MultisigTransaction,
   AggregateTransaction,
@@ -59,6 +60,10 @@ export const routes = [
   {
     path: '/block/info',
     component: BlockInfo
+  },
+  {
+    path: '/metadata/mosaic/info',
+    component: MosaicMetadataInfo
   },
   {
     path: '/transfer_transaction',
@@ -118,6 +123,10 @@ export const link = [
   {
     to: '/block/info',
     text: 'ブロック情報'
+  },
+  {
+    to: '/metadata/mosaic/info',
+    text: 'モザイクメタデータ情報'
   },
   {
     to: '/transfer_transaction',

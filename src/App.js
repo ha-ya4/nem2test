@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <SideMenu width={400} />
+        <SideMenu width={300} />
 
         <Pane
           display="flex"

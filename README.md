@@ -1,1 +1,3 @@
-nem2-sdkを試してみただけ
+nem2-sdkお試し
+
+![画面](./assets/example1.png)

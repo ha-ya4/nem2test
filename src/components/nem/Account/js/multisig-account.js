@@ -2,7 +2,6 @@ import {
   Account,
   Address,
   Deadline,
-  NetworkType,
   MultisigAccountModificationTransaction,
   MultisigHttp,
   UInt64,
@@ -19,7 +18,7 @@ export default class MultisigAccount {
 
   create(conf) {
     try {
-      const account = Account.createFromPrivateKey(conf.privateKey, NetworkType.TEST_NET);
+      const account = Account.createFromPrivateKey(conf.privateKey, process.env.REACT_APP_NETWORK_TYPE);
       const cosignatory = conf.getCosignatoryAccount();
       const modifiTrans = MultisigAccountModificationTransaction.create(
         Deadline.create(),
@@ -27,7 +26,7 @@ export default class MultisigAccount {
         conf.minRemovalDelta,
         cosignatory.map(account => account.publicAccount),
         [],
-        NetworkType.TEST_NET,
+        process.env.REACT_APP_NETWORK_TYPE,
         UInt64.fromUint(2000000)
       );
 

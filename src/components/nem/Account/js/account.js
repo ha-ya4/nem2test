@@ -3,7 +3,6 @@ import {
   AccountHttp,
   Address,
   MosaicHttp,
-  NetworkType,
 } from 'nem2-sdk';
 import ResultState from '../../../../js/resultstate';
 import { divisibility } from '../../../../js/nemhelper';
@@ -15,7 +14,7 @@ export default class Account {
   }
 
   static createNewAccount()　{
-    return NemAccount.generateNewAccount(NetworkType.TEST_NET);
+    return NemAccount.generateNewAccount(process.env.REACT_APP_NETWORK_TYPE);
   }
 
   getAccountInfo(address) {
@@ -40,7 +39,7 @@ export default class Account {
 
   async addDivisibility(mosaics) {
     const m = {};
-    const mosaicHttp = new MosaicHttp(this.node, NetworkType.TEST_NET);
+    const mosaicHttp = new MosaicHttp(this.node, process.env.REACT_APP_NETWORK_TYPE);
     for (const mosaic of mosaics) {
       const res = await mosaicHttp.getMosaic(mosaic.id).toPromise(Promise);
       m[mosaic.id.toHex()] = mosaic.amount.compact() / divisibility(res.divisibility);

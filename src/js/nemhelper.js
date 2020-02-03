@@ -7,7 +7,8 @@ import {
   EmptyMessage,
   HashLockTransaction,
   PlainMessage,
-  NetworkType,
+   
+  NamespaceId,
   MosaicId,
   Mosaic,
   MosaicHttp,
@@ -44,7 +45,7 @@ export function createAggregeteBonded(innerTrans, cosignatures) {
   return AggregateTransaction.createBonded(
     Deadline.create(),
     innerTrans,
-    NetworkType.TEST_NET,
+    process.env.REACT_APP_NETWORK_TYPE,
     cosignatures,
     UInt64.fromUint(2000000)
   );
@@ -54,19 +55,25 @@ export function createAggregeteComplete(innerTrans, cosignatures) {
   return AggregateTransaction.createComplete(
     Deadline.create(),
     innerTrans,
-    NetworkType.TEST_NET,
+    process.env.REACT_APP_NETWORK_TYPE,
     cosignatures,
     UInt64.fromUint(2000000)
   );
 }
 
 export function createTransfer(params) {
+  let recipient;
+  try {
+    recipient = Address.createFromRawAddress(params.recipientAddress);
+  } catch(err) {
+    recipient = new NamespaceId(params.recipientAddress);
+  }
   return TransferTransaction.create(
     Deadline.create(),
-    Address.createFromRawAddress(params.recipientAddress),
+    recipient,
     [networkCurrencyMosaic(params.amount)],
     createMessage(params.message),
-    NetworkType.TEST_NET,
+    process.env.REACT_APP_NETWORK_TYPE,
     UInt64.fromUint(200000)
   );
 }
@@ -77,7 +84,7 @@ export function createHashLock(sinedTx) {
     networkCurrencyMosaic(HashLockAmount),
     UInt64.fromUint(480),
     sinedTx,
-    NetworkType.TEST_NET,
+    process.env.REACT_APP_NETWORK_TYPE,
     UInt64.fromUint(2000000)
   )
 }
@@ -88,7 +95,7 @@ export function createMosaicSupplyChangeTransaction(action, mosaicId, supply) {
     mosaicId,
     action,
     UInt64.fromUint(supply),
-    NetworkType.TEST_NET,
+    process.env.REACT_APP_NETWORK_TYPE,
     UInt64.fromUint(2000000)
   );
 }
@@ -110,7 +117,7 @@ export class Transaction {
     });
   }
 
-  monitoring(address, signedTx) {
+  transferMonitoring(address, signedTx) {
     const listener = new Listener(this.wsEndpoint, WebSocket);
     listener.open().then(
       () => {
@@ -135,8 +142,31 @@ export class Transaction {
     );
   }
 
+  monitoring(address, signedTx) {
+    const listener = new Listener(this.wsEndpoint, WebSocket);
+    listener.open().then(
+      () => {
+
+        listener.status(address).subscribe(err => {
+          this.setResult(ResultState.danger(err.code, 'tansaction status error'));
+          listener.close();
+        });
+
+        listener.confirmed(address, signedTx.hash).subscribe(res => {
+          this.setResult(ResultState.success(res, 'confirmed'));
+          listener.close();
+        });
+
+      },
+      err => {
+        this.setResult(ResultState.danger(err.message, 'エラー'));
+        listener.close();
+      },
+    );
+  }
+
   async addDivisibilityTransResponse(obj) {
-    const mosaicHttp = new MosaicHttp(this.node, NetworkType.TEST_NET);
+    const mosaicHttp = new MosaicHttp(this.node, process.env.REACT_APP_NETWORK_TYPE);
     if (obj.innerTransactions) {
       for (const t of obj.innerTransactions) {
         for (const m of t.mosaics) {
@@ -166,8 +196,8 @@ export class AggregeteBondedHelper {
   }
 
   announceBonded(signer, cosignatory, complete) {
-    const receiptHttp = new ReceiptHttp(this.node, NetworkType.TEST_NET);
-    const transHttp = new TransactionHttp(this.node, NetworkType.TEST_NET);
+    const receiptHttp = new ReceiptHttp(this.node, process.env.REACT_APP_NETWORK_TYPE);
+    const transHttp = new TransactionHttp(this.node, process.env.REACT_APP_NETWORK_TYPE);
     const transactionService = new TransactionService(transHttp, receiptHttp);
     const listener = new Listener(this.wsEndpoint, WebSocket);
 

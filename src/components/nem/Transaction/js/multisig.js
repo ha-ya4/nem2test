@@ -1,7 +1,6 @@
 import {
   PublicAccount,
   TransactionHttp,
-  NetworkType,
 } from 'nem2-sdk';
 import { Transaction } from '../../../../js/nemhelper';
 import ResultState from '../../../../js/resultstate';
@@ -17,7 +16,7 @@ export default class MultisigTransaction extends Transaction {
   send(params) {
     try {
       const cosignatory = params.getCosignatoryAccount();
-      const multisigAccount = PublicAccount.createFromPublicKey(params.multisigPubKey, NetworkType.TEST_NET);
+      const multisigAccount = PublicAccount.createFromPublicKey(params.multisigPubKey, process.env.REACT_APP_NETWORK_TYPE);
       const transferTransaction = createTransfer(params.params);
 
       if (this.isOneOfMultisig(params.cosignatoryPrivateKeys)) {
@@ -38,7 +37,7 @@ export default class MultisigTransaction extends Transaction {
     const res = new TransactionHttp(this.node).announce(signedTx);
 
     this.handleAnnounceResponse(res, signedTx);
-    this.monitoring(multisigAccount.address, signedTx);
+    this.transferMonitoring(multisigAccount.address, signedTx);
   }
 
   sendBonded(cosignatory, multisigAccount, transferTransaction) {

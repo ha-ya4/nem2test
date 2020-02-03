@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { StateManager, getPrivateKey } from '../../../js/helper';
+import { getPrivateKey } from '../../../js/helper';
 import ResultState from '../../../js/resultstate';
 import Namespace from './namespace';
 
-import { Button, Text, Pane, Radio, TextInput } from 'evergreen-ui';
+import { Button, Pane, Radio, TextInput } from 'evergreen-ui';
 import ContentsTitle from '../../ContentsTitle';
-import FormManager from '../../FormManager';
 import Result from '../../Result';
 
 const Alias = (props) => {
